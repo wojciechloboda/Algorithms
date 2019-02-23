@@ -1,0 +1,48 @@
+#include <iostream>
+#include <bits/stdc++.h>
+
+using namespace std;
+
+    int wiersz[1000000];
+    int kolumna[1000000];
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+
+    int a,b,w,z = 0;
+
+    cin >> a >> b;
+
+
+
+    for(int i = 0; i < a; i++)
+    {
+        for(int x = 0; x < b; x++)
+        {
+            cin >> w;
+
+            if(w == 1)
+            {
+                wiersz[i]++;
+                kolumna[x]++;
+            }
+        }
+    }
+
+    for(int i = 0; i < a; i++)
+    {
+        for(int x = 0; x < b; x++)
+        {
+            if(wiersz[i] == kolumna[x])z++;
+        }
+    }
+
+
+    cout << z;
+
+
+
+
+    return 0;
+}
