@@ -1,0 +1,216 @@
+#include <iostream>
+#include <string.h>
+
+using namespace std;
+
+char* pushing_string(char a[])//USUWA ZNAK
+{
+    for(unsigned int i = 0; i < strlen(a) - 1; i++)
+    {
+        a[i] = a[i + 1];
+    }
+    a[strlen(a) - 1] = '\0';
+
+    return a;
+}
+char* longg(char a[], char b[])//SPRAWDZA DLUZSZY
+{
+    if(strlen(a) < strlen(b))
+        return b;
+    return a;
+}
+char* shortt(char a[], char b[])//SPRAWDZA KROTSZU
+{
+    if(strlen(a) < strlen(b))
+        return a;
+    return b;
+}
+char* add(char a[], char b[])//DODAJE I ZWRACA WYNIK || A JEST WIEKSZE
+{
+    char *c = new char [100];
+    memset(c, 0, 100);
+
+    strrev(a);
+    strrev(b);
+
+    unsigned int endd = 0;
+
+    endd = strlen(b);
+
+    int t = 0;
+    int number = 0;
+    char charr;
+
+    for(unsigned int i = 0; i < endd; i++)
+    {
+        number = a[i] - '0' + b[i] - '0' + t;
+        charr = (number % 10) + '0';
+        t = number / 10;
+        c[i] = charr;
+    }
+
+    if(strlen(a) != strlen(b))
+    {
+        for(unsigned int i = endd; i < strlen(a); i++)
+        {
+            c[i] = a[i];
+            if(i == endd)
+                c[i] += t;
+        }
+    }
+    if(strlen(a) == strlen(b) && t != 0)
+    {
+        c[endd] = t + '0';
+    }
+
+    strrev(c);
+
+    return c;
+}
+char* sub(char a[], char b[])//ODEJMUJE || A JEST WIEKSZE
+{
+
+    char* c = new char[100];
+    memset(c, 0, 100);
+
+    strrev(a);
+    strrev(b);
+
+    int endd = 0;
+
+    endd = strlen(b);
+
+    int number = 0;
+
+    for(int i = 0; i < endd; i++)
+    {
+        if(a[i] - b[i] >= 0)
+        {
+            number = a[i] - b[i];
+        }
+        else
+        {
+            int k = 1;
+            while(a[i + k] - 1 < '0')
+            {
+                a[i + k] = '9';
+                k++;
+            }
+            a[i + k] -= 1;
+
+            number = a[i] - b[i] + 10;
+        }
+
+        c[i] = number + '0';
+    }
+
+    if(strlen(a) != strlen(b))
+    {
+        for(unsigned int i = endd; i < strlen(a); i++)
+        {
+            c[i] = a[i];
+        }
+    }
+
+    int j = strlen(a) -1;
+
+    while(c[j] == '0')
+    {
+        j--;
+    }
+
+    if(j + 1 != 0)
+    {
+
+        c[j + 1] = '\0';
+    }
+
+    strrev(c);
+
+    return c;
+}
+int  find(char a[], char character)//ZNAJDUJE ZNAK
+{
+    for(unsigned int i = 0; i < strlen(a); i++)
+    {
+        if(a[i] == character)
+            return i;
+    }
+    return -1;
+}
+char* substr(char a[], int p, int n)// DZIELI NA SUBSTRINGA I ZWRACA
+{
+    char* abc = new char[100];
+
+    for(int i = 0; i < n; i++)
+    {
+        abc[i] = a[p];
+        p++;
+    }
+
+    abc[n] = '\0';
+
+    return abc;
+
+}
+
+int main()
+{
+    int n;
+    char* sum = new char[100];
+    char* sumUlamek = new char[100]; //WIEKSZE
+    char* tempUlamek = new char[100]; //MNIEJSZE
+    char* temp = new char[100];
+
+    sum = "0";
+    sumUlamek = "0";
+    temp = "0";
+    char* a = new char[100];
+
+    cin >> n;
+
+    while(n)
+    {
+        cin >> a;
+
+        if(a[0] == '-')
+        {
+
+        }
+
+
+    else
+    {
+        if(a[0] == '+')
+            a = pushing_string(a);
+
+        if(find(a, '.') != -1)
+        {
+            tempUlamek = substr(a, find(a, '.') + 1, strlen(a));
+
+            temp = shortt(tempUlamek, sumUlamek);
+            sumUlamek = longg(tempUlamek, sumUlamek);
+            tempUlamek = temp;
+
+            cout << tempUlamek << endl;
+            cout << sumUlamek << endl;
+
+            //WYROWNAC
+
+
+            temp = 0;
+
+        }
+
+
+    }
+
+
+
+    n--;
+}
+
+
+return 0;
+}
+
