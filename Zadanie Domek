@@ -1,0 +1,87 @@
+#include <iostream>
+#include <math.h>
+#include <string.h>
+
+using namespace std;
+
+int tab[150000];
+
+int check[150000][20];
+
+int n;
+
+int liczba_kart(int n)
+{
+    int sum = 0;
+    for(int i = 0; i < n; i++)
+    {
+        sum += pow(2, i);
+    }
+
+    return sum;
+}
+
+int marecurs(int karta, int ilosc)
+{
+    if(ilosc == 0)return 0;
+    if(ilosc == 1)return max(0, tab[karta]);
+
+    if(check[karta][ilosc] == -1)
+    {
+
+        int tmp = 0;
+        int naj = 0;
+
+        if(2 * karta > n)return max(0, tab[karta]);
+
+
+        for(int  i = 0; i <= ilosc - 1; i++)
+        {
+            for(int j = 0; i + j <= ilosc - 1; j++)
+            {
+                tmp = max(0, tab[karta] + max(0, marecurs(2 * karta, i) + marecurs(2 * karta + 1, j)));
+
+                if(tmp > naj)naj = tmp;
+
+            }
+        }
+        check[karta][ilosc] = naj;
+        return naj;
+
+    }
+    else
+        return check[karta][ilosc];
+
+
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+
+    memset(check, -1, 3000000);
+
+
+    int d = 0;
+    int a, b;
+
+    cin >> n >> d;
+
+    n = liczba_kart(n);
+
+    for(int i = 1; i <= n; i++)
+    {
+        cin >> a >> b;
+        tab[i] = a + b;
+    }
+
+
+
+    cout << marecurs(1, d / 2);
+
+
+
+
+
+    return 0;
+}
