@@ -1,0 +1,57 @@
+#include <iostream>
+#include <string.h>
+
+using namespace std;
+
+char abc[100];
+
+int  find(char a[], char character)//ZNAJDUJE ZNAK
+{
+    for(int i = 0; i < strlen(a); i++)
+    {
+        if(a[i] == character)return i;
+    }
+    return -1;
+}
+
+char* substr(char a[], int p, int n)// DZIELI NA SUBSTRINGA I ZWRACA
+{
+
+    for(int i = 0; i < n; i++)
+    {
+        abc[i] = a[p];
+        p++;
+    }
+
+    abc[n] = '\0';
+
+    return abc;
+
+}
+
+char* equalizing(char a[], int num)//ZROWNA STRINGI ULAMKOW
+{
+
+    int x = strlen(a);
+
+    for(int i = x; i < x + num; i++)
+    {
+        a[i] = '0';
+    }
+
+    a[strlen(a) + num] = '\0';
+
+    return a;
+
+}
+
+char* c = new char[100];
+
+int main()
+{
+
+
+
+
+    return 0;
+}
