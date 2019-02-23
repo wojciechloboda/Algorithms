@@ -1,0 +1,54 @@
+#include <iostream>
+
+using namespace std;
+
+int ad(int tab[],int n)
+{
+    int x = n - 1;
+    for(int i = 0; i < n; i ++)
+    {
+        if(tab[i] != 0)return i;
+    }
+
+    return x;
+}
+
+void wykr(int tab[], int ad)
+{
+    int i;
+    while(tab[ad] != 0)
+    {
+        i = ad;;
+        ad = tab[ad];
+        tab[i] = 0;
+    }
+
+}
+
+int main()
+{
+    int n;
+
+    cin >> n;
+
+
+    int tab[n];
+    int a, x = 0;
+
+    for(int i = 0; i < n; i++)
+    {
+
+        cin >> a;
+        tab[i] = a - 1;
+    }
+
+    while(ad(tab,n) != n - 1)
+    {
+        wykr(tab, ad(tab,n));
+        x++;
+    }
+
+    cout << x;
+
+    return 0;
+}
