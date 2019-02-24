@@ -153,18 +153,31 @@ char* substr(char a[], int p, int n)// DZIELI NA SUBSTRINGA I ZWRACA
     return abc;
 
 }
+char* equalizing(char a[], char b[])//A MNIEJSZE
+{
+    while(strlen(a) != strlen(b))
+    {
+        a[strlen(a)] = '0';
+    }
+
+    return a;
+
+}
+
 
 int main()
 {
     int n;
     char* sum = new char[100];
+    char* temp = new char[100];
     char* sumUlamek = new char[100]; //WIEKSZE
     char* tempUlamek = new char[100]; //MNIEJSZE
-    char* temp = new char[100];
+    char caloscUlamka = '0';
 
-    sum = "0";
-    sumUlamek = "0";
-    temp = "0";
+    memset(sumUlamek, 0, 100);
+    memset(sum, 0 ,100);
+    memset(temp, 0, 100);
+
     char* a = new char[100];
 
     cin >> n;
@@ -179,38 +192,57 @@ int main()
         }
 
 
-    else
-    {
-        if(a[0] == '+')
-            a = pushing_string(a);
-
-        if(find(a, '.') != -1)
+        else
         {
-            tempUlamek = substr(a, find(a, '.') + 1, strlen(a));
+            if(a[0] == '+')
+                a = pushing_string(a);
 
-            temp = shortt(tempUlamek, sumUlamek);
-            sumUlamek = longg(tempUlamek, sumUlamek);
-            tempUlamek = temp;
+            if(find(a, '.') != -1)//ULAMKI POCZANTEK
+            {
+                tempUlamek = substr(a, find(a, '.') + 1, strlen(a));
 
-            cout << tempUlamek << endl;
-            cout << sumUlamek << endl;
+                if(strlen(tempUlamek) > strlen(sumUlamek))
+                    sumUlamek = equalizing(sumUlamek, tempUlamek);
+                else
+                    tempUlamek = equalizing(tempUlamek, sumUlamek);
 
-            //WYROWNAC
+                sumUlamek = add(sumUlamek, tempUlamek);
 
+                if(strlen(sumUlamek) > strlen(tempUlamek))
+                {
+                    caloscUlamka = sumUlamek[0];
+                    pushing_string(sumUlamek);
 
-            temp = 0;
+                }                  // ULAMKI KONIEC
+
+            }
+
+            if(find(a, '.') == -1)
+                temp = a;
+            else
+                temp = substr(a, 0, find(a, '.'));
+
+            sum = add(longg(temp, sum), shortt(temp, sum));
+
+            if(caloscUlamka == '1')
+            {
+                sum[strlen(sum) - 1] = sum[strlen(sum) - 1] + '1' - '0';
+                caloscUlamka = '0';
+            }
 
         }
 
 
+
+
+
+        n--;
     }
 
+    cout << sum << "." << sumUlamek << endl;
 
 
-    n--;
-}
 
-
-return 0;
+    return 0;
 }
 
