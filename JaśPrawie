@@ -1,12 +1,26 @@
 #include <iostream>
 #include <string.h>
-#include <cstring>
+#include <cstdio>
 
 using namespace std;
 
-char * sum = new char [200];
-char * a = new char[200];
+char * sum = new char [500];
+char * a = new char[500];
 
+char *strrev(char a[])
+{
+    int i, j;
+    char temp = 0;
+    j = strlen(a) - 1;
+    for (i = 0; i < j; i++,j--)
+    {
+        temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
+
+    return a;
+}
 char* longg(char a[], char b[])//SPRAWDZA DLUZSZY
 {
     if(strlen(a) < strlen(b))
@@ -21,11 +35,11 @@ char* shortt(char a[], char b[])//SPRAWDZA KROTSZU
 }
 char* add(char a[], char b[])//DODAJE I ZWRACA WYNIK || A JEST WIEKSZE
 {
-    char *c = new char [200];
-    memset(c, 0, 200);
+    char *c = new char [500];
+    memset(c, 0, 500);
 
-    strrev(a);
-    strrev(b);
+    a = strrev(a);
+    b = strrev(b);
 
     unsigned int endd = 0;
 
@@ -63,18 +77,18 @@ char* add(char a[], char b[])//DODAJE I ZWRACA WYNIK || A JEST WIEKSZE
         c[endd] = t + '0';
     }
 
-    strrev(c);
+    c = strrev(c);
 
     return c;
 }
 char* sub(char a[], char b[])//ODEJMUJE || A JEST WIEKSZE
 {
 
-    char* c = new char[200];
-    memset(c, 0, 200);
+    char* c = new char[500];
+    memset(c, 0, 500);
 
-    strrev(a);
-    strrev(b);
+    a = strrev(a);
+    b = strrev(b);
 
     int endd = 0;
 
@@ -134,7 +148,7 @@ char* sub(char a[], char b[])//ODEJMUJE || A JEST WIEKSZE
         c[j + 1] = '\0';
     }
 
-    strrev(c);
+    c = strrev(c);
 
     return c;
 }
@@ -282,8 +296,8 @@ char * add_character(char a[])
 
 int main()
 {
-    memset(sum, 0, 200);
-    memset(a, 0, 200);
+    memset(sum, 0, 500);
+    memset(a, 0, 500);
 
     sum[0] = '0';
 
@@ -352,9 +366,53 @@ int main()
             sum = add(sum, a);
         }
 
-        memset(a, 0, 200);
+        memset(a, 0, 500);
         n--;
     }
+
+    while(sum[0] == '0')
+    {
+        for(int i = 0; i < strlen(a) - 1; i++)
+        {
+            a[i] = a[i + 1];
+        }
+
+        a[strlen(a) - 1] = '\0';
+    }
+
+    if(sum[1] == ',' && sum[0] == '-')
+    {
+        sum[strlen(sum) + 1] = '\0';
+        for(unsigned int i = strlen(sum); i > 1; i--)
+        {
+            sum[i] = sum[i - 1];
+        }
+
+        sum[1] = '0';
+
+    }
+    if(sum[0] == ',')
+    {
+        sum[strlen(sum) + 1] = '\0';
+        for(unsigned int i = strlen(sum); i > 0; i--)
+        {
+            sum[i] = sum[i - 1];
+        }
+
+        sum[1] = '0';
+
+
+    }
+
+
+    int licz = strlen(sum) - 1;
+
+    while(sum[licz] == '0')
+    {
+        sum[licz] = 0;
+        licz--;
+    }
+    if(sum[strlen(sum) - 1] == ',')sum[strlen(sum) - 1] = 0;
 
     cout << sum;
 
