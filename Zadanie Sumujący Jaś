@@ -1,0 +1,194 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+string a, dodatnie = "0";
+string ujemne = "0";
+string wyn = "0";
+
+bool czyzero(){
+    for(int i = 0; i < a.length(); i++){
+        if(a[i] != ',' && a[i] != '0'){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+bool wib(string x, string y){
+    for(int i = 0; i < x.length(); i++){
+        if(x[i] > y[i])return 0;
+        if(y[i] > x[i])return 1;
+    }
+    return 1;
+}
+
+void wynequal(){
+    if(ujemne.find(',') == -1){
+        ujemne.append(",");
+    }
+    if(dodatnie.find(',') == -1){
+        dodatnie.append(",");
+    }
+    while(ujemne.find(',') < dodatnie.find(',')){
+        ujemne.insert(0, "0");
+    }
+    while(ujemne.find(',') > dodatnie.find(',')){
+        dodatnie.insert(0, "0");
+    }
+    while(ujemne.length() < dodatnie.length()){
+        ujemne.append("0");
+    }
+    while(ujemne.length() > dodatnie.length()){
+        dodatnie.append("0");
+    }
+}
+
+void equal(char c){ // c = 1 DODATANIE
+    if(c == 1){
+    if(a.find(',') == -1){
+        a.append(",");
+    }
+    if(dodatnie.find(',') == -1){
+        dodatnie.append(",");
+    }
+    while(a.find(',') < dodatnie.find(',')){
+        a.insert(0, "0");
+    }
+    while(a.find(',') > dodatnie.find(',')){
+        dodatnie.insert(0, "0");
+    }
+    while(a.length() < dodatnie.length()){
+        a.append("0");
+    }
+    while(a.length() > dodatnie.length()){
+        dodatnie.append("0");
+    }
+    }
+    else{
+        if(a.find(',') == -1){
+        a.append(",");
+    }
+    if(ujemne.find(',') == -1){
+        ujemne.append(",");
+    }
+    while(a.find(',') < ujemne.find(',')){
+        a.insert(0, "0");
+    }
+    while(a.find(',') > ujemne.find(',')){
+        ujemne.insert(0, "0");
+    }
+    while(a.length() < ujemne.length()){
+        a.append("0");
+    }
+    while(a.length() > ujemne.length()){
+        ujemne.append("0");
+    }
+        
+    }
+}
+
+string addition(string str1, string str2) 
+{ 
+    string str = ""; 
+    reverse(str1.begin(), str1.end()); 
+    reverse(str2.begin(), str2.end()); 
+  
+    int carry = 0; 
+    for (int i=0; i<str1.length(); i++) 
+    { 
+        if(str1[i] == ','){
+            str.push_back(',');
+            continue;
+        }
+        int sum = ((str1[i]-'0')+(str2[i]-'0')+carry); 
+        str.push_back(sum%10 + '0'); 
+  
+        carry = sum/10; 
+    }
+    if (carry) 
+        str.push_back(carry+'0'); 
+    reverse(str.begin(), str.end()); 
+  
+    return str; 
+} 
+
+string subtraction(string str1, string str2){
+    
+    string str = "";
+    int n1 = str1.length(); 
+    reverse(str1.begin(), str1.end()); 
+    reverse(str2.begin(), str2.end()); 
+    int carry = 0; 
+    for (int i=0; i<n1; i++) {
+        
+        if(str1[i] == ','){
+            str.push_back(',');
+            continue;
+        }
+ 
+        int sub = ((str1[i]-'0')-(str2[i]-'0')-carry); 
+        if (sub < 0) { 
+            sub = sub + 10; 
+            carry = 1; 
+        } 
+        else
+            carry = 0; 
+        str.push_back(sub + '0'); 
+    } 
+    reverse(str.begin(), str.end());
+    return str;
+}
+
+int main(){
+    
+    int n;
+    cin >> n;
+    while(n){
+        cin >> a;
+        if(a[0] == '-'){
+            a.erase(0, 1);
+            equal(0);
+            ujemne = addition(a, ujemne);
+        }
+        else{
+            if(a[0] == '+')
+                a.erase(0, 1);
+            equal(1);
+            dodatnie = addition(a, dodatnie);
+        }
+        n--;
+    }
+    wynequal();
+    
+    if(wib(dodatnie, ujemne) == 0){
+        wyn = subtraction(dodatnie, ujemne);
+        while(wyn[0] == '0')wyn.erase(0, 1);
+        while(wyn[wyn.length() - 1] == '0')wyn.erase(wyn.length() - 1, 1);
+        if(czyzero() == 1){
+            cout << 0 << endl;
+            return 1;
+        }
+        if(wyn[0] == ',')wyn.insert(0, "0");
+        if(wyn[wyn.length() - 1] == ',')wyn.erase(wyn.length() - 1, 1);
+        
+        
+        cout << wyn << endl;
+    }
+    if(wib(dodatnie, ujemne) == 1){
+        wyn = subtraction(ujemne, dodatnie);
+        while(wyn[0] == '0')wyn.erase(0, 1);
+        while(wyn[wyn.length() - 1] == '0')wyn.erase(wyn.length() - 1, 1);
+        if(czyzero() == 1){
+            cout << 0 << endl;
+            return 1;
+        }
+        if(wyn[0] == ',')wyn.insert(0, "0");
+        if(wyn[wyn.length() - 1] == ',')wyn.erase(wyn.length() - 1, 1);
+        
+        cout << '-' << wyn << endl;
+    }
+    
+    
+    return 0;
+}
