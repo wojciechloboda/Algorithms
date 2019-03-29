@@ -1,0 +1,62 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+long long pion[1000000];
+long long poziom[1000000];
+long long n = 0;
+
+long long ile_wiekszych(long long x){
+    long long wyn = 0;
+    long long k = n;
+    
+    for(long long i = 0; i <= n; i++){
+        while(k >= 0 && poziom[i] * pion[k] >= x){
+            k--;
+        }
+        wyn += n - k;
+    }
+    
+    return wyn;
+}
+
+long long binsearch(long long p,long long k,long long x){
+    long long s = p + (k - p)/2 + 1;
+    if(p < k){
+        if(ile_wiekszych(s) >= x)return binsearch(s, k, x);
+        else return binsearch(p, s - 1, x);
+    }
+    else return p;
+}
+
+int main()
+{
+    long long po, pi, d1 = 0, d2 = 0, g;
+    
+    cin >> po >> pi;
+    cin >> n;
+    cin >> g;
+    
+    for(long long i = 0; i < n; i++){
+        cin >> d2;
+        poziom[i] = d2 - d1;
+        d1 = d2;
+    }
+    poziom[n] = po - d1;
+    d1 = 0;
+    
+    for(long long i = 0; i < n; i++){
+        cin >> d2;
+        pion[i] = d2 - d1;
+        d1 = d2;
+    }
+    pion[n] = pi- d1;
+    d1 = 0;
+    
+    sort(pion, pion + n + 1);
+    sort(poziom, poziom + n + 1);
+    
+    cout << binsearch(poziom[0] * pion[0], poziom[n] * pion[n], g) << endl;
+
+	return 0;
+}
