@@ -1,2 +1,2 @@
 # KolkoInformatyczne
-Rozwiązania z kółka informatycznego
+Basic and more advanced algorithms written in c++
